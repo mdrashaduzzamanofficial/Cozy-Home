@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+{% block content %}
+<h1>Make Payment for {{ property.title }}</h1>
+<form method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-primary">Pay</button>
+</form>
+{% endblock %}

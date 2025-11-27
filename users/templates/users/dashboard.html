@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Dashboard</h1>
+{% if user.role == 'landlord' %}
+    <h2>Your Properties</h2>
+    <a href="{% url 'create_property' %}" class="btn btn-success mb-3">Add Property</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for property in properties %}
+                <tr>
+                    <td>{{ property.title }}</td>
+                    <td>${{ property.price }}</td>
+                    <td>{{ property.location }}</td>
+                    <td>{{ property.is_available|yesno:"Available,Not Available" }}</td>
+                    <td>
+                        <a href="{% url 'property_detail' property.pk %}" class="btn btn-sm btn-info">View</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Applications</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Tenant</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for application in applications %}
+                <tr>
+                    <td>{{ application.property.title }}</td>
+                    <td>{{ application.tenant.username }}</td>
+                    <td>{{ application.status|title }}</td>
+                    <td>
+                        {% if application.status == 'pending' %}
+                            <a href="{% url 'generate_lease' application.id %}" class="btn btn-sm btn-primary">Generate Lease</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Welcome, {{ user.username }}!</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Messages</h1>
+<a href="{% url 'send_message' %}" class="btn btn-primary mb-3">Send Message</a>
+<h2>Received Messages</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>From</th>
+            <th>Content</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for message in received_messages %}
+            <tr>
+                <td>{{ message.sender.username }}</td>
+                <td>{{ message.content|truncatewords:20 }}</td>
+                <td>{{ message.timestamp }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<h2>Sent Messages</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>To</th>
+            <th>Content</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for message in sent_messages %}
+            <tr>
+                <td>{{ message.receiver.username }}</td>
+                <td>{{ message.content|truncatewords:20 }}</td>
+                <td>{{ message.timestamp }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

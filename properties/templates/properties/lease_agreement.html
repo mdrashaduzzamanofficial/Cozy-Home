@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+{% block content %}
+<h1>Generate Lease for {{ application.property.title }}</h1>
+<form method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-primary">Generate Lease</button>
+</form>
+{% endblock %}

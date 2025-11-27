@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+{% block content %}
+<h1>{{ property.title }}</h1>
+<div class="card">
+    {% if property.image %}
+        <img src="{{ property.image.url }}" class="card-img-top" alt="{{ property.title }}">
+    {% endif %}
+    <div class="card-body">
+        <p class="card-text">{{ property.description }}</p>
+        <p class="card-text"><strong>Price:</strong> ${{ property.price }}</p>
+        <p class="card-text"><strong>Location:</strong> {{ property.location }}</p>
+        <p class="card-text"><strong>Bedrooms:</strong> {{ property.bedrooms }}</p>
+        <p class="card-text"><strong>Owner:</strong> {{ property.owner.username }}</p>
+        {% if user.is_authenticated and user.role == 'tenant' and property.is_available %}
+            <h3>Apply for this Property</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <button type="submit" class="btn btn-primary">Apply</button>
+            </form>
+            <a href="{% url 'make_payment' property.pk %}" class="btn btn-success mt-2">Make Payment</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
